@@ -9,13 +9,18 @@ const getAllTasks = (_req: Request, res: Response) => {
 };
 
 const createOneTask = async (req: BodyTask, res: Response) => {
+  // Validate req.body with Joi
   const valid = validateTaskData(req.body);
 
+  // Joi validation errors
   if (valid.error) {
-    const messages = valid.error.details.map((detail) => detail.message);
+    const messages = valid.error.details.map(
+      (detail): string => detail.message
+    );
     return res.status(400).json({ success: false, msg: messages });
   }
 
+  // If no Joi validation errors
   try {
     const task: ITask = await taskService.createOneTask(req.body);
     return res.status(201).json({ success: true, data: task });
@@ -25,11 +30,11 @@ const createOneTask = async (req: BodyTask, res: Response) => {
 
     // Mongoose validation error
     if (messages.length > 0) {
-      return res.status(400).send({ success: false, error: messages });
+      return res.status(400).json({ success: false, error: messages });
     }
 
     // Already added error
-    if (!messages.length) return res.status(400).send(error);
+    if (!messages.length) return res.status(400).json(error);
 
     // Server error
     return res

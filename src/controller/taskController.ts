@@ -1,10 +1,16 @@
 import { Request, Response } from "express";
 import { TypedRequestBodyParams } from "../types/generics";
-import { BodyTask, ITask } from "../types/interfaces";
+import { BodyTask, ITask, CustomError } from "../types/interfaces";
 import { validateTaskData } from "../utils/validation";
 import taskService from "../services/taskService";
-const getAllTasks = (_req: Request, res: Response) => {
-  res.send("All Tasks");
+const getAllTasks = async (_req: Request, res: Response) => {
+  try {
+    const allTasks = await taskService.getAllTasks();
+    res.status(200).json(allTasks);
+  } catch (error) {
+    console.log(error);
+    if (error instanceof CustomError) res.status(500).json(error);
+  }
 };
 
 const createOneTask = async (req: BodyTask, res: Response) => {
@@ -25,7 +31,7 @@ const createOneTask = async (req: BodyTask, res: Response) => {
     return res.status(201).json({ success: true, data: task });
   } catch (error) {
     // Mongoose Validation or Already Exist error
-    if (error) return res.status(400).json(error);
+    if (error instanceof CustomError) return res.status(400).json(error);
 
     // Server error
     return res

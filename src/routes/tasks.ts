@@ -7,4 +7,10 @@ router
   .get(taskController.getAllTasks)
   .post(taskController.createOneTask);
 
+router
+  .route("/:taskId")
+  .get(taskController.getOneTask)
+  .patch(taskController.updateOneTask)
+  .delete(taskController.deleteOneTask);
+
 export default router;

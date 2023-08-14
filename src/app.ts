@@ -15,8 +15,16 @@ app.get("/hello", (_req: Request, res: Response) => {
 
 app.use("/api/v1/tasks", tasksRouter);
 
-void dbConnect();
+const start = async () => {
+  try {
+    await dbConnect();
+    console.log("CONNECTED TO THE DB...");
+    app.listen(port, () => {
+      console.log(`Server is listening on ${port}...`);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-app.listen(port, () => {
-  console.log(`Server is listening on ${port}...`);
-});
+void start();

@@ -1,12 +1,15 @@
 import { Request, Response } from "express";
-import { TypedRequestBody } from "../types/generics";
+import { TypedRequestBodyParams } from "../types/generics";
+import { Task } from "../models/Task";
+import { BodyTask } from "../types/interfaces";
 
 const getAllTasks = (_req: Request, res: Response) => {
   res.send("All Tasks");
 };
 
-const createOneTask = (req: Request, res: Response) => {
-  res.json(req.body);
+const createOneTask = async (req: BodyTask, res: Response) => {
+  const task = await Task.create(req.body);
+  res.status(201).json({ task });
 };
 
 const getOneTask = (req: Request<{ taskId: string }>, res: Response) => {
@@ -15,7 +18,7 @@ const getOneTask = (req: Request<{ taskId: string }>, res: Response) => {
 };
 
 const updateOneTask = (
-  req: TypedRequestBody<{ name: string }, { taskId: string }>,
+  req: TypedRequestBodyParams<{ name: string }, { taskId: string }>,
   res: Response
 ) => {
   const { taskId } = req.params;

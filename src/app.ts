@@ -3,7 +3,7 @@ import tasksRouter from "./routes/tasks";
 import dbConnect from "./database/connect";
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 // middleware
 app.use(express.json());

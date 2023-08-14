@@ -8,7 +8,7 @@ const taskSchema = new mongoose.Schema<ITask>({
     trim: true,
     maxlength: [20, "Name can not be more than 20 characters"],
   },
-  completed: { type: Boolean, required: true },
+  completed: { type: Boolean, default: false, required: true },
 });
 
 export const Task = mongoose.model<ITask>("Task", taskSchema);

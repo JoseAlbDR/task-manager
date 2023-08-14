@@ -2,21 +2,16 @@ import { Task } from "../models/Task";
 import { ITask } from "../types/interfaces";
 
 const createOneTask = async (newTask: ITask) => {
-  const taskToInsert: ITask = {
-    ...newTask,
-    completed: newTask?.completed ? newTask.completed : false,
-  };
-
   try {
     const isAlreadyAdded = await Task.findOne({
-      name: taskToInsert.name,
+      name: newTask.name,
     });
 
     if (isAlreadyAdded) {
       throw { success: false, message: "Task already added" };
     }
 
-    const createdTask: ITask = await Task.create(taskToInsert);
+    const createdTask: ITask = await Task.create(newTask);
     return createdTask;
   } catch (error) {
     console.log(error);

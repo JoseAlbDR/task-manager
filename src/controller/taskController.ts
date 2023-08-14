@@ -1,7 +1,11 @@
 import { Request, Response } from "express";
 
 const getAllTasks = (_req: Request, res: Response) => {
-  return res.send("All Tasks");
+  res.send("All Tasks");
 };
 
-export default { getAllTasks };
+const createOneTask = (_req: Request, res: Response) => {
+  res.send("Create Task");
+};
+
+export default { getAllTasks, createOneTask };

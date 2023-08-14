@@ -1,9 +1,7 @@
 import express from "express";
-
+import taskController from "../controller/taskController";
 const router = express.Router();
 
-router.get("/", (_req, res) => {
-  res.send("All Tasks");
-});
+router.get("/", taskController.getAllTasks);
 
 export default router;

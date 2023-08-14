@@ -1,15 +1,33 @@
 import { Request, Response } from "express";
 import { TypedRequestBodyParams } from "../types/generics";
 import { Task } from "../models/Task";
-import { BodyTask } from "../types/interfaces";
-
+import { BodyTask, ITask } from "../types/interfaces";
+import { validateTaskData } from "../utils/validation";
+import { validationError } from "../utils/validationError";
 const getAllTasks = (_req: Request, res: Response) => {
   res.send("All Tasks");
 };
 
 const createOneTask = async (req: BodyTask, res: Response) => {
-  const task = await Task.create(req.body);
-  res.status(201).json({ task });
+  const valid = validateTaskData(req.body);
+
+  if (valid.error) {
+    const messages = valid.error.details.map((detail) => detail.message);
+    return res.status(400).json({ success: false, msg: messages });
+  }
+
+  try {
+    const task: ITask = await Task.create(req.body);
+    return res.status(201).json({ success: true, data: task });
+  } catch (error) {
+    const messages = validationError(error);
+    if (messages)
+      return res.status(400).send({ success: false, error: messages });
+
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal server error", error });
+  }
 };
 
 const getOneTask = (req: Request<{ taskId: string }>, res: Response) => {

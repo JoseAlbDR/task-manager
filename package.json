@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon app.js",
     "tsc": "tsc",
-    "dev": "ts-node-dev app.ts",
+    "dev": "ts-node-dev --files ./src/app.ts",
     "lint": "eslint --ext .ts ."
   },
   "keywords": [],

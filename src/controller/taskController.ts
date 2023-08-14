@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { TypedRequestBodyParams } from "../types/generics";
 import { BodyTask, ITask } from "../types/interfaces";
 import { validateTaskData } from "../utils/validation";
-import { validationError } from "../utils/validationError";
 import taskService from "../services/taskService";
 const getAllTasks = (_req: Request, res: Response) => {
   res.send("All Tasks");
@@ -25,16 +24,8 @@ const createOneTask = async (req: BodyTask, res: Response) => {
     const task: ITask = await taskService.createOneTask(req.body);
     return res.status(201).json({ success: true, data: task });
   } catch (error) {
-    // Check if error is Mongoose.Error.ValidationError
-    const messages = validationError(error);
-
-    // Mongoose validation error
-    if (messages.length > 0) {
-      return res.status(400).json({ success: false, error: messages });
-    }
-
-    // Already added error
-    if (!messages.length) return res.status(400).json(error);
+    // Mongoose Validation or Already Exist error
+    if (error) return res.status(400).json(error);
 
     // Server error
     return res

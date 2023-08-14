@@ -1,5 +1,7 @@
 import express, { Request, Response } from "express";
 import tasksRouter from "./routes/tasks";
+import dbConnect from "./database/connect";
+
 const app = express();
 const port = 3000;
 
@@ -12,6 +14,8 @@ app.get("/hello", (_req: Request, res: Response) => {
 });
 
 app.use("/api/v1/tasks", tasksRouter);
+
+void dbConnect();
 
 app.listen(port, () => {
   console.log(`Server is listening on ${port}...`);

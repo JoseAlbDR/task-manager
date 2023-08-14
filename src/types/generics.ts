@@ -1,4 +1,4 @@
-export interface TypedRequestBody<Body, Params> extends Express.Request {
+export interface TypedRequestBodyParams<Body, Params> extends Express.Request {
   body: Body;
   params: Params;
 }

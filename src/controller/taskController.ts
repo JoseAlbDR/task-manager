@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { TypedRequestBodyParams } from "../types/generics";
-import { Task } from "../models/Task";
 import { BodyTask, ITask } from "../types/interfaces";
 import { validateTaskData } from "../utils/validation";
 import { validationError } from "../utils/validationError";
+import taskService from "../services/taskService";
 const getAllTasks = (_req: Request, res: Response) => {
   res.send("All Tasks");
 };
@@ -17,13 +17,21 @@ const createOneTask = async (req: BodyTask, res: Response) => {
   }
 
   try {
-    const task: ITask = await Task.create(req.body);
+    const task: ITask = await taskService.createOneTask(req.body);
     return res.status(201).json({ success: true, data: task });
   } catch (error) {
+    // Check if error is Mongoose.Error.ValidationError
     const messages = validationError(error);
-    if (messages)
-      return res.status(400).send({ success: false, error: messages });
 
+    // Mongoose validation error
+    if (messages.length > 0) {
+      return res.status(400).send({ success: false, error: messages });
+    }
+
+    // Already added error
+    if (!messages.length) return res.status(400).send(error);
+
+    // Server error
     return res
       .status(500)
       .json({ success: false, message: "Internal server error", error });

@@ -3,6 +3,9 @@ import tasksRouter from "./routes/tasks";
 const app = express();
 const port = 3000;
 
+// middleware
+app.use(express.json());
+
 // routes
 app.get("/hello", (_req: Request, res: Response) => {
   res.send("Hello there!");

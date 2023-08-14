@@ -5,13 +5,13 @@ const getAllTasks = (_req: Request, res: Response) => {
   res.send("All Tasks");
 };
 
-const createOneTask = (_req: Request, res: Response) => {
-  res.send("Create Task");
+const createOneTask = (req: Request, res: Response) => {
+  res.json(req.body);
 };
 
 const getOneTask = (req: Request<{ taskId: string }>, res: Response) => {
   const { taskId } = req.params;
-  res.send(`Task with id ${+taskId}`);
+  res.json({ id: taskId });
 };
 
 const updateOneTask = (
@@ -21,12 +21,12 @@ const updateOneTask = (
   const { taskId } = req.params;
   const { name } = req.body;
 
-  res.send(`Updated Task with id ${+taskId}, name: ${name}`);
+  res.json({ id: taskId, name });
 };
 
 const deleteOneTask = (req: Request<{ taskId: string }>, res: Response) => {
   const { taskId } = req.params;
-  res.send(`Deleted Task with id ${+taskId}`);
+  res.json({ id: taskId });
 };
 
 export default {

@@ -1,6 +1,6 @@
 export interface ITask {
   name: string;
-  completed: boolean;
+  completed?: boolean;
 }
 
 export interface BodyTask {

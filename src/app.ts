@@ -17,7 +17,7 @@ app.use(express.static("./public"));
 
 // routes
 app.use("/api/v1/tasks", tasksRouter);
-
+app.use("*");
 const start = async () => {
   try {
     await dbConnect();

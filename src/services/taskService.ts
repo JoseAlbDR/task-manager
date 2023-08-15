@@ -51,8 +51,10 @@ const createOneTask = async (newTask: ITask): Promise<ITask> => {
 
 const updateOneTask = async (taskId: string, task: ITask) => {
   try {
-    const taskToUpdate = await Task.findByIdAndUpdate(taskId, task);
-    const updatedTask = await Task.findById(taskToUpdate?._id);
+    const updatedTask = await Task.findByIdAndUpdate(taskId, task, {
+      new: true,
+      runValidators: true,
+    });
 
     if (!updatedTask)
       throw new CustomError(`Task with id ${taskId} does not exist`);

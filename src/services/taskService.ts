@@ -7,14 +7,14 @@ const getAllTasks = async (): Promise<ITask[]> => {
     return tasks;
   } catch (error) {
     console.log(error);
-    throw new CustomError("Error loading tasks from database", error);
+    throw error;
   }
 };
 
 const getOneTask = async (taskId: string): Promise<ITask> => {
   try {
     const task = await Task.findById(taskId);
-    if (!task) throw new CustomError(`Task with id ${taskId} not found`);
+    if (!task) throw new CustomError(`Task with id ${taskId} not found`, 404);
     return task;
   } catch (error) {
     console.log(error);
@@ -29,7 +29,7 @@ const createOneTask = async (newTask: ITask): Promise<ITask> => {
 
     // If the task already exists
     if (isAlreadyAdded) {
-      throw new CustomError("Task already exist in database");
+      throw new CustomError("Task already exist in database", 409);
     }
 
     const createdTask: ITask = await Task.create(newTask);
@@ -48,7 +48,7 @@ const updateOneTask = async (taskId: string, task: ITask): Promise<ITask> => {
     });
 
     if (!updatedTask)
-      throw new CustomError(`Task with id ${taskId} does not exist`);
+      throw new CustomError(`Task with id ${taskId} does not exist`, 404);
 
     return updatedTask;
   } catch (error) {
@@ -61,7 +61,7 @@ const deleteOneTask = async (taskId: string) => {
   try {
     const deleteResult = await Task.deleteOne({ _id: taskId });
     if (!deleteResult.deletedCount)
-      throw new CustomError(`Task with id ${taskId} could not be found`);
+      throw new CustomError(`Task with id ${taskId} could not be found`, 404);
     return deleteResult;
   } catch (error) {
     console.log(error);

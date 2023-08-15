@@ -7,12 +7,11 @@ const errorHandlerMiddleware = (
   res: Response,
   _next: NextFunction
 ) => {
-  // Mongoose Validation or Already Exist error
-  if (err instanceof CustomError) return res.status(400).json(err);
+  if (err instanceof CustomError) return res.status(err.status).json(err);
 
   // Server error
-  const serverError = new CustomError("Internal server error", err);
-  return res.status(500).json(serverError);
+  const serverError = new CustomError("Internal server error", 500, err);
+  return res.status(serverError.status).json(serverError);
 };
 
 export default errorHandlerMiddleware;

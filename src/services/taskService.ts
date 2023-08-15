@@ -16,7 +16,6 @@ const getOneTask = async (taskId: string): Promise<ITask> => {
   try {
     const task = await Task.findById(taskId);
     if (!task) throw new CustomError("Task not found");
-    console.log(task);
     return task;
   } catch (error) {
     console.log(error);
@@ -49,4 +48,16 @@ const createOneTask = async (newTask: ITask): Promise<ITask> => {
   }
 };
 
-export default { createOneTask, getAllTasks, getOneTask };
+const deleteOneTask = async (taskId: string) => {
+  try {
+    const deleteResult = await Task.deleteOne({ _id: taskId });
+    if (!deleteResult.deletedCount)
+      throw new CustomError(`Task with id ${taskId} could not be found`);
+    return deleteResult;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export default { createOneTask, getAllTasks, getOneTask, deleteOneTask };

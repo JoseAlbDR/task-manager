@@ -6,7 +6,7 @@ import taskService from "../services/taskService";
 const getAllTasks = async (_req: Request, res: Response) => {
   try {
     const allTasks = await taskService.getAllTasks();
-    return res.status(200).json({ tasks: allTasks });
+    return res.status(200).json({ success: true, tasks: allTasks });
   } catch (error) {
     console.log(error);
     if (error instanceof CustomError) return res.status(500).json(error);
@@ -44,7 +44,7 @@ const getOneTask = async (req: Request<{ taskId: string }>, res: Response) => {
   try {
     const { taskId } = req.params;
     const foundTask = await taskService.getOneTask(taskId);
-    return res.status(200).json({ task: foundTask });
+    return res.status(200).json({ success: true, task: foundTask });
   } catch (error) {
     // Not found error
     if (error instanceof CustomError) return res.status(404).json(error);
@@ -66,9 +66,21 @@ const updateOneTask = (
   res.json({ id: taskId, name });
 };
 
-const deleteOneTask = (req: Request<{ taskId: string }>, res: Response) => {
-  const { taskId } = req.params;
-  res.json({ id: taskId });
+const deleteOneTask = async (
+  req: Request<{ taskId: string }>,
+  res: Response
+) => {
+  try {
+    const { taskId } = req.params;
+    const deleteResult = await taskService.deleteOneTask(taskId);
+    return res
+      .status(200)
+      .json({ success: true, count: deleteResult.deletedCount });
+  } catch (error) {
+    if (error instanceof CustomError) return res.status(404).json(error);
+    const serverError = new CustomError("Internal server error", error);
+    return res.status(500).json(serverError);
+  }
 };
 
 export default {

@@ -9,7 +9,7 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       [key: string]: string | undefined;
-      PORT: number;
+      PORT: string;
       DATABASE_URL: string;
     }
   }

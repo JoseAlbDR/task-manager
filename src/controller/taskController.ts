@@ -6,11 +6,11 @@ import taskService from "../services/taskService";
 const getAllTasks = async (_req: Request, res: Response) => {
   try {
     const allTasks = await taskService.getAllTasks();
-    res.status(200).json({ tasks: allTasks });
+    return res.status(200).json({ tasks: allTasks });
   } catch (error) {
     console.log(error);
-    if (error instanceof CustomError) res.status(500).json(error);
-    res.status(500).json({ success: false, message: error });
+    if (error instanceof CustomError) return res.status(500).json(error);
+    return res.status(500).json({ success: false, message: error });
   }
 };
 
@@ -40,9 +40,20 @@ const createOneTask = async (req: BodyTask, res: Response) => {
   }
 };
 
-const getOneTask = (req: Request<{ taskId: string }>, res: Response) => {
-  const { taskId } = req.params;
-  res.json({ id: taskId });
+const getOneTask = async (req: Request<{ taskId: string }>, res: Response) => {
+  try {
+    const { taskId } = req.params;
+    const foundTask = await taskService.getOneTask(taskId);
+    return res.status(200).json({ task: foundTask });
+  } catch (error) {
+    // Not found error
+    if (error instanceof CustomError) return res.status(404).json(error);
+
+    // Server error
+    console.log(error);
+    const serverError = new CustomError("Internal server error", error);
+    return res.status(500).json(serverError);
+  }
 };
 
 const updateOneTask = (

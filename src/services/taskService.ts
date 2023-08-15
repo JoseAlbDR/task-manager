@@ -12,6 +12,17 @@ const getAllTasks = async (): Promise<ITask[]> => {
   }
 };
 
+const getOneTask = async (taskId: string): Promise<ITask> => {
+  try {
+    const task = await Task.findById(taskId);
+    if (!task) throw new CustomError("Task not found");
+    console.log(task);
+    return task;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
 const createOneTask = async (newTask: ITask): Promise<ITask> => {
   try {
     const isAlreadyAdded = await Task.findOne({
@@ -38,4 +49,4 @@ const createOneTask = async (newTask: ITask): Promise<ITask> => {
   }
 };
 
-export default { createOneTask, getAllTasks };
+export default { createOneTask, getAllTasks, getOneTask };

@@ -15,7 +15,7 @@ const getAllTasks = async (): Promise<ITask[]> => {
 const getOneTask = async (taskId: string): Promise<ITask> => {
   try {
     const task = await Task.findById(taskId);
-    if (!task) throw new CustomError("Task not found");
+    if (!task) throw new CustomError(`Task with id ${taskId} not found`);
     return task;
   } catch (error) {
     console.log(error);

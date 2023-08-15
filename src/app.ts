@@ -3,6 +3,7 @@ import cors from "cors";
 import tasksRouter from "./routes/tasks";
 import dbConnect from "./database/connect";
 import notFound from "./middleware/notFound";
+import errorHandlerMiddleware from "./middleware/errorHandler";
 
 const app = express();
 const port = process.env.PORT;
@@ -19,6 +20,7 @@ app.use(express.static("./public"));
 // routes
 app.use("/api/v1/tasks", tasksRouter);
 app.use("*", notFound);
+app.use(errorHandlerMiddleware);
 
 const start = async () => {
   try {

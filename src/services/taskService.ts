@@ -48,6 +48,23 @@ const createOneTask = async (newTask: ITask): Promise<ITask> => {
   }
 };
 
+const updateOneTask = async (taskId: string, task: ITask) => {
+  try {
+    console.log(taskId);
+    console.log(task);
+    const taskToUpdate = await Task.findByIdAndUpdate(taskId, task);
+    const updatedTask = await Task.findById(taskToUpdate?._id);
+
+    if (!updatedTask)
+      throw new CustomError(`Task with id ${taskId} does not exist`);
+
+    return updatedTask;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 const deleteOneTask = async (taskId: string) => {
   try {
     const deleteResult = await Task.deleteOne({ _id: taskId });
@@ -60,4 +77,10 @@ const deleteOneTask = async (taskId: string) => {
   }
 };
 
-export default { createOneTask, getAllTasks, getOneTask, deleteOneTask };
+export default {
+  createOneTask,
+  getAllTasks,
+  getOneTask,
+  deleteOneTask,
+  updateOneTask,
+};

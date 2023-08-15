@@ -6,8 +6,11 @@ import notFound from "./middleware/notFound";
 import errorHandlerMiddleware from "./middleware/errorHandler";
 
 const app = express();
-const port = process.env.PORT;
-const allowedOrigins = ["http://127.0.0.1:3000"];
+const port = +process.env.PORT || 3000;
+const allowedOrigins = [
+  `http://127.0.0.1:${port}`,
+  "htpps://taskmanager.jadero.dev",
+];
 const options: cors.CorsOptions = {
   origin: allowedOrigins,
 };

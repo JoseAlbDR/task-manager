@@ -10,7 +10,8 @@ const getAllTasks = async (_req: Request, res: Response) => {
     return res.status(200).json({ success: true, tasks: allTasks });
   } catch (error) {
     // Server error
-    return res.status(500).json(error);
+    const serverError = new CustomError("Internal server error", error);
+    return res.status(500).json(serverError);
   }
 };
 

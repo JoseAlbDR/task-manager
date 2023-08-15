@@ -36,6 +36,7 @@ const createOneTask = async (newTask: ITask): Promise<ITask> => {
     const createdTask: ITask = await Task.create(newTask);
     return createdTask;
   } catch (error) {
+    console.log(error);
     const message = validationError(error);
 
     // Mongoose validation error
@@ -50,8 +51,6 @@ const createOneTask = async (newTask: ITask): Promise<ITask> => {
 
 const updateOneTask = async (taskId: string, task: ITask) => {
   try {
-    console.log(taskId);
-    console.log(task);
     const taskToUpdate = await Task.findByIdAndUpdate(taskId, task);
     const updatedTask = await Task.findById(taskToUpdate?._id);
 

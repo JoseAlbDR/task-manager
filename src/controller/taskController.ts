@@ -33,7 +33,7 @@ const createOneTask = async (req: BodyTask, res: Response) => {
   // If no Joi validation errors
   try {
     const task: ITask = await taskService.createOneTask(req.body);
-    return res.status(201).json({ success: true, data: task });
+    return res.status(201).json({ success: true, task });
   } catch (error) {
     // Mongoose Validation or Already Exist error
     if (error instanceof CustomError) return res.status(400).json(error);

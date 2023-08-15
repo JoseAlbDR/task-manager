@@ -10,7 +10,10 @@ const getAllTasks = async (_req: Request, res: Response) => {
   } catch (error) {
     console.log(error);
     if (error instanceof CustomError) return res.status(500).json(error);
-    return res.status(500).json({ success: false, message: error });
+
+    // Server error
+    const serverError = new CustomError("Internal server error", error);
+    return res.status(500).json(serverError);
   }
 };
 
@@ -50,20 +53,22 @@ const getOneTask = async (req: Request<{ taskId: string }>, res: Response) => {
     if (error instanceof CustomError) return res.status(404).json(error);
 
     // Server error
-    console.log(error);
     const serverError = new CustomError("Internal server error", error);
     return res.status(500).json(serverError);
   }
 };
 
 const updateOneTask = (
-  req: TypedRequestBodyParams<{ name: string }, { taskId: string }>,
+  req: TypedRequestBodyParams<
+    { name: string; completed: boolean },
+    { taskId: string }
+  >,
   res: Response
 ) => {
   const { taskId } = req.params;
-  const { name } = req.body;
+  const { name, completed } = req.body;
 
-  res.json({ id: taskId, name });
+  res.json({ id: taskId, name, completed });
 };
 
 const deleteOneTask = async (

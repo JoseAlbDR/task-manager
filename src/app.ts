@@ -5,7 +5,7 @@ import cors from "cors";
 
 const app = express();
 const port = process.env.PORT;
-const allowedOrigins = ["http://127.0.0.1:5500"];
+const allowedOrigins = ["http://127.0.0.1:3000"];
 const options: cors.CorsOptions = {
   origin: allowedOrigins,
 };

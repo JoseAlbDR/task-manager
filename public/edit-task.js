@@ -12,7 +12,7 @@ const showTask = async () => {
   try {
     const {
       data: { task },
-    } = await axios.get(`http://127.0.0.1:3000/api/v1/tasks/${id}`);
+    } = await axios.get(`/api/v1/tasks/${id}`);
     const { _id: taskID, completed, name } = task;
 
     taskIDDOM.textContent = taskID;
@@ -37,7 +37,7 @@ editFormDOM.addEventListener("submit", async (e) => {
 
     const {
       data: { task },
-    } = await axios.patch(`http://127.0.0.1:3000/api/v1/tasks/${id}`, {
+    } = await axios.patch(`/api/v1/tasks/${id}`, {
       name: taskName,
       completed: taskCompleted,
     });

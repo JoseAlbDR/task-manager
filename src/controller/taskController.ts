@@ -25,7 +25,9 @@ const createOneTask = async (req: BodyTask, res: Response) => {
       (detail): string => detail.message
     );
     //Bad Request error
-    return res.status(400).json({ success: false, msg: messages });
+    return res
+      .status(400)
+      .json({ success: false, message: messages.join(", ") });
   }
 
   // If no Joi validation errors
@@ -73,7 +75,9 @@ const updateOneTask = async (
       (detail): string => detail.message
     );
     //Bad Request error
-    return res.status(400).json({ success: false, msg: messages });
+    return res
+      .status(400)
+      .json({ success: false, message: messages.join(", ") });
   }
   try {
     const { taskId } = req.params;

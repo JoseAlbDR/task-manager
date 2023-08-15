@@ -14,13 +14,11 @@ const errorHandlerMiddleware = (
 
   // Server error
   const serverError = new CustomError("Internal server error", 500, err);
-  return res
-    .status(serverError.status)
-    .json({
-      success: serverError.success,
-      message: serverError.message,
-      error: serverError.error,
-    });
+  return res.status(serverError.status).json({
+    success: serverError.success,
+    message: serverError.message,
+    error: serverError.error,
+  });
 };
 
 export default errorHandlerMiddleware;

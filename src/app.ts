@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import tasksRouter from "./routes/tasks";
 import dbConnect from "./database/connect";
 import cors from "cors";
@@ -13,12 +13,9 @@ const options: cors.CorsOptions = {
 // middleware
 app.use(express.json());
 app.use(cors(options));
+app.use(express.static("./public"));
 
 // routes
-app.get("/hello", (_req: Request, res: Response) => {
-  res.send("Hello there!");
-});
-
 app.use("/api/v1/tasks", tasksRouter);
 
 const start = async () => {

@@ -6,10 +6,11 @@ import taskService from "../services/taskService";
 const getAllTasks = async (_req: Request, res: Response) => {
   try {
     const allTasks = await taskService.getAllTasks();
-    res.status(200).json(allTasks);
+    res.status(200).json({ tasks: allTasks });
   } catch (error) {
     console.log(error);
     if (error instanceof CustomError) res.status(500).json(error);
+    res.status(500).json({ success: false, message: error });
   }
 };
 

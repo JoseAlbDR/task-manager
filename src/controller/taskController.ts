@@ -64,6 +64,17 @@ const updateOneTask = async (
   >,
   res: Response
 ) => {
+  // Validate req.body with Joi
+  const valid = validateTaskData(req.body);
+
+  // Joi validation errors
+  if (valid.error) {
+    const messages = valid.error.details.map(
+      (detail): string => detail.message
+    );
+    //Bad Request error
+    return res.status(400).json({ success: false, msg: messages });
+  }
   try {
     const { taskId } = req.params;
     const { name, completed } = req.body;

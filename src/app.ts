@@ -1,12 +1,18 @@
 import express, { Request, Response } from "express";
 import tasksRouter from "./routes/tasks";
 import dbConnect from "./database/connect";
+import cors from "cors";
 
 const app = express();
 const port = process.env.PORT;
+const allowedOrigins = ["http://127.0.0.1:5500"];
+const options: cors.CorsOptions = {
+  origin: allowedOrigins,
+};
 
 // middleware
 app.use(express.json());
+app.use(cors(options));
 
 // routes
 app.get("/hello", (_req: Request, res: Response) => {

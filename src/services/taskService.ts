@@ -49,7 +49,7 @@ const createOneTask = async (newTask: ITask): Promise<ITask> => {
   }
 };
 
-const updateOneTask = async (taskId: string, task: ITask) => {
+const updateOneTask = async (taskId: string, task: ITask): Promise<ITask> => {
   try {
     const updatedTask = await Task.findByIdAndUpdate(taskId, task, {
       new: true,

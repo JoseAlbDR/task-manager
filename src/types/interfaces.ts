@@ -8,11 +8,9 @@ export interface BodyTask {
 }
 
 export class CustomError extends Error {
-  constructor(
-    public success: boolean,
-    public message: string,
-    public error?: unknown
-  ) {
+  success: boolean;
+  constructor(public message: string, public error?: unknown) {
     super();
+    this.success = false;
   }
 }

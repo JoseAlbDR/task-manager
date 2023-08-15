@@ -34,9 +34,8 @@ const createOneTask = async (req: BodyTask, res: Response) => {
     if (error instanceof CustomError) return res.status(400).json(error);
 
     // Server error
-    return res
-      .status(500)
-      .json({ success: false, message: "Internal server error", error });
+    const serverError = new CustomError("Internal server error", error);
+    return res.status(500).json(serverError);
   }
 };
 

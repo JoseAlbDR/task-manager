@@ -8,7 +8,7 @@ const getAllTasks = async (): Promise<ITask[]> => {
     return tasks;
   } catch (error) {
     console.log(error);
-    throw new CustomError(false, "Error loading tasks from database", error);
+    throw new CustomError("Error loading tasks from database", error);
   }
 };
 
@@ -20,7 +20,7 @@ const createOneTask = async (newTask: ITask): Promise<ITask> => {
 
     // If the task already exists
     if (isAlreadyAdded) {
-      throw new CustomError(false, "Task already exist in database");
+      throw new CustomError("Task already exist in database");
     }
 
     const createdTask: ITask = await Task.create(newTask);
@@ -30,7 +30,7 @@ const createOneTask = async (newTask: ITask): Promise<ITask> => {
 
     // Mongoose validation error
     if (message) {
-      throw new CustomError(false, message);
+      throw new CustomError(message);
     }
 
     // Another error occurred

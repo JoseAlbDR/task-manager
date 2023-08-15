@@ -1,7 +1,8 @@
 import express from "express";
+import cors from "cors";
 import tasksRouter from "./routes/tasks";
 import dbConnect from "./database/connect";
-import cors from "cors";
+import notFound from "./middleware/notFound";
 
 const app = express();
 const port = process.env.PORT;
@@ -17,7 +18,8 @@ app.use(express.static("./public"));
 
 // routes
 app.use("/api/v1/tasks", tasksRouter);
-app.use("*");
+app.use("*", notFound);
+
 const start = async () => {
   try {
     await dbConnect();

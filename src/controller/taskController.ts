@@ -11,7 +11,7 @@ const getAllTasks = asyncWrapper(async (_req: Request, res: Response) => {
 
 const createOneTask = asyncWrapper(async (req: Request, res: Response) => {
   // Validate req.body with Joi
-  const valid = validateTaskData(req.body as ITask);
+  const valid = validateTaskData(req.body);
 
   // Joi validation errors
   if (valid.error) {
@@ -37,7 +37,7 @@ const getOneTask = asyncWrapper(async (req: Request, res: Response) => {
 
 const updateOneTask = asyncWrapper(async (req: Request, res: Response) => {
   // Validate req.body with Joi
-  const valid = validateTaskData(req.body as ITask);
+  const valid = validateTaskData(req.body);
 
   // Joi validation errors
   if (valid.error) {

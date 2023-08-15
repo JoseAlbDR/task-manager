@@ -1,6 +1,5 @@
 import { Task } from "../models/Task";
 import { CustomError, ITask } from "../types/interfaces";
-import { validationError } from "../utils/validationError";
 
 const getAllTasks = async (): Promise<ITask[]> => {
   try {
@@ -37,14 +36,6 @@ const createOneTask = async (newTask: ITask): Promise<ITask> => {
     return createdTask;
   } catch (error) {
     console.log(error);
-    const message = validationError(error);
-
-    // Mongoose validation error
-    if (message) {
-      throw new CustomError(message);
-    }
-
-    // Another error occurred
     throw error;
   }
 };

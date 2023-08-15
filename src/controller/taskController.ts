@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { ITask } from "../types/interfaces";
 import { validateTaskData } from "../utils/validation";
 import taskService from "../services/taskService";
-import asyncWrapper from "../middleware/async";
+import asyncWrapper from "../middleware/asyncWrapper";
 
 const getAllTasks = asyncWrapper(async (_req: Request, res: Response) => {
   const allTasks = await taskService.getAllTasks();
